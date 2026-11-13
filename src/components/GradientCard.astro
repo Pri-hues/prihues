@@ -1,0 +1,74 @@
+---
+interface Props {
+  title: string;
+  subtitle?: string;
+  gradient?: 'primary' | 'pop' | 'ocean' | 'aurora';
+  href?: string;
+}
+
+const { title, subtitle, gradient = 'primary', href } = Astro.props;
+
+const gradMap = {
+  primary: 'var(--grad-primary)',
+  pop:     'var(--grad-pop)',
+  ocean:   'var(--grad-ocean)',
+  aurora:  'var(--grad-aurora)',
+};
+---
+
+{href ? (
+  <a href={href} class="card" style={`--card-grad: ${gradMap[gradient]}`}>
+    <div class="card-inner">
+      <span class="card-title">{title}</span>
+      {subtitle && <span class="card-subtitle">{subtitle}</span>}
+      <slot />
+    </div>
+  </a>
+) : (
+  <div class="card" style={`--card-grad: ${gradMap[gradient]}`}>
+    <div class="card-inner">
+      <span class="card-title">{title}</span>
+      {subtitle && <span class="card-subtitle">{subtitle}</span>}
+      <slot />
+    </div>
+  </div>
+)}
+
+<style>
+  .card {
+    display: block;
+    background: var(--card-grad);
+    border-radius: 16px;
+    padding: 2px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 20px 60px rgba(108, 60, 232, 0.2);
+  }
+
+  .card-inner {
+    background: var(--color-bg);
+    border-radius: 14px;
+    padding: 32px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .card-title {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 600;
+    font-size: 18px;
+    color: var(--color-dark);
+  }
+
+  .card-subtitle {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    font-size: 14px;
+    color: var(--color-muted);
+  }
+</style>

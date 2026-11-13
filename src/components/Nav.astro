@@ -1,0 +1,97 @@
+---
+const { pathname } = Astro.url;
+
+const links = [
+  { href: '/',            label: 'Home' },
+  { href: '/art',         label: 'Art' },
+  { href: '/photography', label: 'Photography' },
+  { href: '/books',       label: 'Books' },
+  { href: '/blog',        label: 'Blog' },
+  { href: '/thoughts',    label: 'Thoughts' },
+  { href: '/about',       label: 'About' },
+  { href: '/contact',     label: 'Contact' },
+];
+---
+
+<nav class="nav">
+  <div class="container nav-inner">
+    <a href="/" class="nav-logo">PriHues</a>
+    <ul class="nav-links">
+      {links.map(({ href, label }) => (
+        <li>
+          <a
+            href={href}
+            class:list={['nav-link', { active: pathname === href || (href !== '/' && pathname.startsWith(href)) }]}
+          >
+            {label}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</nav>
+
+<style>
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(248, 249, 255, 0.85);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+  }
+
+  .nav-logo {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    background: var(--grad-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: -0.02em;
+  }
+
+  .nav-links {
+    display: flex;
+    list-style: none;
+    gap: 32px;
+    align-items: center;
+  }
+
+  .nav-link {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    color: var(--color-muted);
+    transition: color 0.2s ease;
+  }
+
+  .nav-link:hover,
+  .nav-link.active {
+    color: var(--color-violet);
+  }
+
+  @media (max-width: 768px) {
+    .nav-links {
+      gap: 16px;
+    }
+
+    .nav-link {
+      font-size: 13px;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .nav-links {
+      display: none;
+    }
+  }
+</style>

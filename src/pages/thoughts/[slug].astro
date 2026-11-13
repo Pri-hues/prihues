@@ -1,0 +1,88 @@
+---
+export const prerender = true;
+
+import Layout from '../../layouts/Layout.astro';
+import Tag from '../../components/Tag.astro';
+import { getCollection, getEntry, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const thoughts = await getCollection('thoughts', ({ data }) => !data.draft);
+  return thoughts.map((thought) => ({ params: { slug: thought.id } }));
+}
+
+const { slug } = Astro.params;
+const thought = await getEntry('thoughts', slug);
+if (!thought) return Astro.redirect('/thoughts');
+
+const { Content } = await render(thought);
+---
+
+<Layout title={`${thought.data.title} — PriHues`} description={thought.data.description}>
+  <article class="section">
+    <div class="container article-layout">
+      <header class="article-header">
+        <div class="article-meta">
+          {thought.data.tags.map((tag) => (
+            <Tag label={tag} color="fuchsia" />
+          ))}
+          <span class="caption">
+            {thought.data.date.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}
+          </span>
+        </div>
+        <h1 class="article-title">{thought.data.title}</h1>
+      </header>
+      <div class="prose">
+        <Content />
+      </div>
+      <a href="/thoughts" class="back-link">← Back to Thoughts</a>
+    </div>
+  </article>
+</Layout>
+
+<style>
+  .article-layout {
+    max-width: 640px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .article-header {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid rgba(9, 9, 14, 0.08);
+  }
+
+  .article-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .article-title {
+    font-size: clamp(28px, 3.5vw, 40px);
+    font-weight: 800;
+    color: var(--color-dark);
+    line-height: 1.1;
+  }
+
+  .prose {
+    color: var(--color-muted);
+    line-height: 1.8;
+    font-size: 17px;
+  }
+
+  .prose p { margin-bottom: 1.5em; }
+
+  .back-link {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    color: var(--color-violet);
+  }
+
+  .back-link:hover { opacity: 0.75; }
+</style>

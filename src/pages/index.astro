@@ -1,0 +1,289 @@
+---
+export const prerender = true;
+
+import Layout from '../layouts/Layout.astro';
+import GradientCard from '../components/GradientCard.astro';
+import Tag from '../components/Tag.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import { getCollection } from 'astro:content';
+
+const blogPosts   = await getCollection('blog',    ({ data }) => !data.draft);
+const thoughtsAll = await getCollection('thoughts', ({ data }) => !data.draft);
+const books       = await getCollection('books',    ({ data }) => !data.draft);
+
+const latestPost    = blogPosts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime())[0];
+const latestThought = thoughtsAll.sort((a, b) => b.data.date.getTime() - a.data.date.getTime())[0];
+const currentBook   = books.sort((a, b) => b.data.date.getTime() - a.data.date.getTime())[0];
+---
+
+<Layout title="PriHues — Art, Design & Photography" darkHero={true}>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container hero-content">
+      <span class="label eyebrow">VISUAL DESIGNER · BANGALORE</span>
+      <div class="gradient-rule"></div>
+      <h1>
+        Art, Design<br />
+        <span class="text-gradient">&amp; Photography.</span>
+      </h1>
+      <p class="one-liner">
+        I make things that feel as good as they look —<br />
+        quiet, intentional, unmistakably mine.
+      </p>
+      <div class="hero-cta">
+        <a href="/art" class="btn btn-gradient">View my work →</a>
+        <a href="/contact" class="btn btn-ghost">Get in touch</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Below-hero sections -->
+  <div class="below-hero">
+
+    <!-- Featured Work -->
+    <section class="section">
+      <div class="container">
+        <SectionHeader eyebrow="WORK" heading="Featured Work" gradient={true} />
+        <div class="grid-3">
+          <GradientCard
+            title="Visual Identity"
+            subtitle="Brand design for a Bangalore-based studio"
+            gradient="primary"
+            href="/art"
+          />
+          <GradientCard
+            title="Editorial Photography"
+            subtitle="Light studies in monsoon Bangalore"
+            gradient="ocean"
+            href="/photography"
+          />
+          <GradientCard
+            title="Art Direction"
+            subtitle="Campaign concept and visual language"
+            gradient="pop"
+            href="/art"
+          />
+        </div>
+      </div>
+    </section>
+
+    <!-- Latest from the Blog -->
+    <section class="section">
+      <div class="container">
+        <SectionHeader eyebrow="WRITING" heading="Latest from the Blog" />
+        {latestPost && (
+          <a href={`/blog/${latestPost.id}`} class="blog-preview">
+            <div class="blog-meta">
+              {latestPost.data.tags.slice(0, 2).map((tag) => (
+                <Tag label={tag} color="violet" />
+              ))}
+              <span class="caption">
+                {latestPost.data.date.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}
+              </span>
+            </div>
+            <h3>{latestPost.data.title}</h3>
+            <p>{latestPost.data.description}</p>
+          </a>
+        )}
+        <a href="/blog" class="text-link">All posts →</a>
+      </div>
+    </section>
+
+    <!-- Currently Reading -->
+    <section class="section">
+      <div class="container">
+        <SectionHeader eyebrow="READING" heading="Currently Reading" />
+        {currentBook && (
+          <a href={`/books`} class="book-preview">
+            <div class="book-rating">
+              {'★'.repeat(currentBook.data.rating)}{'☆'.repeat(5 - currentBook.data.rating)}
+            </div>
+            <h3>{currentBook.data.title}</h3>
+            <span class="caption">{currentBook.data.author}</span>
+            <p>{currentBook.data.description}</p>
+          </a>
+        )}
+        <a href="/books" class="text-link">All books →</a>
+      </div>
+    </section>
+
+    <!-- Recent Thoughts -->
+    <section class="section">
+      <div class="container">
+        <SectionHeader eyebrow="THOUGHTS" heading="Recent Thoughts" />
+        {latestThought && (
+          <a href={`/thoughts/${latestThought.id}`} class="thought-preview">
+            <h3>{latestThought.data.title}</h3>
+            <p>{latestThought.data.description}</p>
+          </a>
+        )}
+        <a href="/thoughts" class="text-link">All thoughts →</a>
+      </div>
+    </section>
+
+  </div>
+</Layout>
+
+<style>
+  /* Hero */
+  .hero {
+    background: var(--grad-hero-bg);
+    min-height: 90vh;
+    display: flex;
+    align-items: center;
+  }
+
+  .hero-content {
+    padding-top: 80px;
+    padding-bottom: 80px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .eyebrow {
+    color: var(--color-violet);
+  }
+
+  .gradient-rule {
+    width: 44px;
+    height: 2px;
+    background: var(--grad-primary);
+    border-radius: 2px;
+  }
+
+  h1 {
+    color: #fff;
+    line-height: 1.0;
+  }
+
+  .one-liner {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    font-size: 18px;
+    color: rgba(248, 249, 255, 0.6);
+    line-height: 1.65;
+    max-width: 480px;
+  }
+
+  .hero-cta {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    flex-wrap: wrap;
+    padding-top: 8px;
+  }
+
+  .btn {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    padding: 14px 28px;
+    border-radius: 999px;
+    display: inline-block;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+
+  .btn:hover {
+    opacity: 0.88;
+    transform: translateY(-1px);
+  }
+
+  .btn-gradient {
+    background: var(--grad-primary);
+    color: #fff;
+  }
+
+  .btn-ghost {
+    border: 1.5px solid rgba(248, 249, 255, 0.25);
+    color: rgba(248, 249, 255, 0.8);
+    background: transparent;
+  }
+
+  .btn-ghost:hover {
+    border-color: rgba(248, 249, 255, 0.5);
+  }
+
+  /* Below hero */
+  .below-hero {
+    background: var(--grad-page-bg);
+  }
+
+  .grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  /* Blog preview */
+  .blog-preview {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-width: 640px;
+    padding-bottom: 32px;
+  }
+
+  .blog-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  /* Book preview */
+  .book-preview {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-width: 480px;
+    padding-bottom: 32px;
+  }
+
+  .book-rating {
+    font-size: 16px;
+    color: var(--color-violet);
+    letter-spacing: 2px;
+  }
+
+  /* Thought preview */
+  .thought-preview {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 540px;
+    padding-bottom: 32px;
+  }
+
+  .thought-preview h3,
+  .blog-preview h3,
+  .book-preview h3 {
+    color: var(--color-dark);
+    transition: color 0.2s ease;
+  }
+
+  .thought-preview:hover h3,
+  .blog-preview:hover h3,
+  .book-preview:hover h3 {
+    color: var(--color-violet);
+  }
+
+  .text-link {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    color: var(--color-violet);
+    letter-spacing: 0.04em;
+  }
+
+  .text-link:hover {
+    opacity: 0.75;
+  }
+
+  @media (max-width: 768px) {
+    .grid-3 {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

@@ -1,0 +1,117 @@
+---
+export const prerender = true;
+
+import Layout from '../layouts/Layout.astro';
+import Tag from '../components/Tag.astro';
+---
+
+<Layout title="About — PriHues">
+  <section class="section">
+    <div class="container about-layout">
+      <div class="about-left">
+        <span class="label eyebrow">ABOUT</span>
+        <h1 class="about-name">
+          Hi, I'm <span class="text-gradient">Pri.</span>
+        </h1>
+        <p class="role-line">Visual Designer · Art Director · Bangalore</p>
+        <p>
+          I make things that feel as good as they look — quiet, intentional, unmistakably mine.
+        </p>
+        <p>
+          I work at the intersection of visual design, art direction, and photography. My practice is rooted in the belief that the most powerful design decisions are often the quietest ones — a carefully chosen typeface, a colour that sets a mood, an image that holds silence.
+        </p>
+        <p>
+          I'm available for freelance projects: brand identities, editorial design, art direction, and creative consulting.
+        </p>
+        <div class="skills">
+          <Tag label="Brand Identity" color="violet" />
+          <Tag label="Art Direction" color="cobalt" />
+          <Tag label="Typography" color="fuchsia" />
+          <Tag label="Photography" color="teal" />
+          <Tag label="Visual Systems" color="violet" />
+        </div>
+        <a href="/contact" class="btn-primary">Work with me →</a>
+      </div>
+      <div class="about-right">
+        <div class="portrait-placeholder"></div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .about-layout {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 80px;
+    align-items: start;
+  }
+
+  .about-left {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .eyebrow {
+    color: var(--color-violet);
+  }
+
+  .about-name {
+    font-size: clamp(40px, 5vw, 64px);
+    font-weight: 800;
+    color: var(--color-dark);
+    line-height: 1.0;
+    margin-top: 8px;
+  }
+
+  .role-line {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    color: var(--color-caption);
+  }
+
+  .skills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding-top: 8px;
+  }
+
+  .btn-primary {
+    display: inline-block;
+    font-family: 'Manrope', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    padding: 14px 28px;
+    border-radius: 999px;
+    background: var(--grad-primary);
+    color: #fff;
+    width: fit-content;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+
+  .btn-primary:hover {
+    opacity: 0.88;
+    transform: translateY(-1px);
+  }
+
+  .portrait-placeholder {
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    border-radius: 16px;
+    background: var(--grad-aurora);
+    opacity: 0.5;
+  }
+
+  @media (max-width: 860px) {
+    .about-layout {
+      grid-template-columns: 1fr;
+    }
+
+    .about-right {
+      max-width: 320px;
+    }
+  }
+</style>

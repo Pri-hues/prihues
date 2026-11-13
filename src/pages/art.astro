@@ -1,0 +1,99 @@
+---
+export const prerender = true;
+
+import Layout from '../layouts/Layout.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import Tag from '../components/Tag.astro';
+---
+
+<Layout title="Art — PriHues">
+  <section class="section">
+    <div class="container">
+      <SectionHeader eyebrow="ART" heading="Visual Work" gradient={true} />
+      <p class="intro">
+        A collection of visual design, brand identity, art direction, and illustration work.
+      </p>
+      <div class="work-grid">
+        <div class="work-item">
+          <div class="work-thumb thumb-1"></div>
+          <div class="work-info">
+            <div class="work-tags">
+              <Tag label="Branding" color="violet" />
+              <Tag label="Identity" color="cobalt" />
+            </div>
+            <h3>Visual Identity</h3>
+            <p>Brand design for a Bangalore-based creative studio.</p>
+          </div>
+        </div>
+        <div class="work-item">
+          <div class="work-thumb thumb-2"></div>
+          <div class="work-info">
+            <div class="work-tags">
+              <Tag label="Art Direction" color="fuchsia" />
+            </div>
+            <h3>Campaign Direction</h3>
+            <p>Visual language and concept for a seasonal campaign.</p>
+          </div>
+        </div>
+        <div class="work-item">
+          <div class="work-thumb thumb-3"></div>
+          <div class="work-info">
+            <div class="work-tags">
+              <Tag label="Illustration" color="teal" />
+            </div>
+            <h3>Editorial Illustration</h3>
+            <p>A series of abstract compositions exploring colour and form.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .intro {
+    max-width: 480px;
+    margin-bottom: 64px;
+    color: var(--color-muted);
+  }
+
+  .work-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 48px 32px;
+  }
+
+  .work-item {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .work-thumb {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    border-radius: 12px;
+  }
+
+  .thumb-1 { background: var(--grad-primary); }
+  .thumb-2 { background: var(--grad-pop); }
+  .thumb-3 { background: var(--grad-ocean); }
+
+  .work-info {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .work-tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  h3 { color: var(--color-dark); }
+
+  @media (max-width: 640px) {
+    .work-grid { grid-template-columns: 1fr; }
+  }
+</style>

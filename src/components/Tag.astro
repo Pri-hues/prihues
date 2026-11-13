@@ -1,0 +1,43 @@
+---
+interface Props {
+  label: string;
+  color?: 'violet' | 'cobalt' | 'fuchsia' | 'teal';
+}
+
+const { label, color = 'violet' } = Astro.props;
+---
+
+<span class={`tag tag-${color}`}>{label}</span>
+
+<style>
+  .tag {
+    display: inline-block;
+    font-family: 'Manrope', sans-serif;
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 999px;
+  }
+
+  .tag-violet {
+    background: rgba(108, 60, 232, 0.1);
+    color: var(--color-violet);
+  }
+
+  .tag-cobalt {
+    background: rgba(45, 122, 255, 0.1);
+    color: var(--color-cobalt);
+  }
+
+  .tag-fuchsia {
+    background: rgba(217, 70, 239, 0.1);
+    color: var(--color-fuchsia);
+  }
+
+  .tag-teal {
+    background: rgba(6, 182, 212, 0.1);
+    color: var(--color-teal);
+  }
+</style>

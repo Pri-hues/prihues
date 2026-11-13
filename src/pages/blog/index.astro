@@ -1,0 +1,66 @@
+---
+export const prerender = true;
+
+import Layout from '../../layouts/Layout.astro';
+import SectionHeader from '../../components/SectionHeader.astro';
+import Tag from '../../components/Tag.astro';
+import { getCollection } from 'astro:content';
+
+const allPosts = await getCollection('blog', ({ data }) => !data.draft);
+const posts = allPosts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+---
+
+<Layout title="Blog — PriHues">
+  <section class="section">
+    <div class="container">
+      <SectionHeader eyebrow="WRITING" heading="Blog" gradient={true} />
+      <div class="posts-list">
+        {posts.map((post) => (
+          <a href={`/blog/${post.id}`} class="post-item">
+            <div class="post-meta">
+              {post.data.tags.slice(0, 2).map((tag) => (
+                <Tag label={tag} color="violet" />
+              ))}
+              <span class="caption">
+                {post.data.date.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}
+              </span>
+            </div>
+            <h3>{post.data.title}</h3>
+            <p>{post.data.description}</p>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .posts-list {
+    display: flex;
+    flex-direction: column;
+    gap: 56px;
+  }
+
+  .post-item {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-width: 640px;
+  }
+
+  .post-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  h3 {
+    color: var(--color-dark);
+    transition: color 0.2s ease;
+  }
+
+  .post-item:hover h3 {
+    color: var(--color-violet);
+  }
+</style>

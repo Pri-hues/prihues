@@ -1,0 +1,77 @@
+---
+import Nav from '../components/Nav.astro';
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  darkHero?: boolean;
+}
+
+const {
+  title = 'PriHues — Art, Design & Photography',
+  description = 'I make things that feel as good as they look — quiet, intentional, unmistakably mine.',
+  darkHero = false,
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title}</title>
+
+    <!-- Google Fonts: Manrope + DM Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&family=DM+Sans:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <Nav />
+    <main class:list={[{ 'page-bg': !darkHero }]}>
+      <slot />
+    </main>
+    <footer class="footer">
+      <div class="container footer-inner">
+        <span class="footer-brand">PriHues</span>
+        <span class="caption">© {new Date().getFullYear()} Priya Choudhary · Visual Designer · Bangalore</span>
+        <span class="caption">Available for freelance</span>
+      </div>
+    </footer>
+  </body>
+</html>
+
+<style>
+  .footer {
+    background: var(--color-dark);
+    padding: 40px 0;
+  }
+
+  .footer-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .footer-brand {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    background: var(--grad-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .caption {
+    color: rgba(248, 249, 255, 0.35);
+  }
+</style>

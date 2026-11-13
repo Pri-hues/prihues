@@ -1,0 +1,109 @@
+---
+export const prerender = true;
+
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Contact — PriHues">
+  <section class="section">
+    <div class="container contact-layout">
+      <div class="contact-header">
+        <span class="label eyebrow">CONTACT</span>
+        <h1>
+          Let's make something<br />
+          <span class="text-gradient">worth remembering.</span>
+        </h1>
+        <p>
+          I'm open to freelance projects, collaborations, and interesting conversations.
+          Reach out and let's see what we can build together.
+        </p>
+      </div>
+      <div class="contact-info">
+        <div class="contact-item">
+          <span class="label">Email</span>
+          <a href="mailto:hello@prihues.com" class="contact-link">hello@prihues.com</a>
+        </div>
+        <div class="contact-item">
+          <span class="label">Instagram</span>
+          <a href="https://instagram.com/prismatichues" class="contact-link" target="_blank" rel="noopener">@prismatichues</a>
+        </div>
+        <div class="contact-item">
+          <span class="label">Based in</span>
+          <span class="contact-value">Bangalore, India</span>
+        </div>
+        <div class="contact-item">
+          <span class="label">Availability</span>
+          <span class="contact-value available">Open to freelance</span>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .contact-layout {
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    gap: 80px;
+    align-items: start;
+  }
+
+  .contact-header {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .eyebrow {
+    color: var(--color-violet);
+  }
+
+  h1 {
+    font-size: clamp(36px, 4.5vw, 56px);
+    font-weight: 800;
+    color: var(--color-dark);
+    line-height: 1.1;
+  }
+
+  .contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    padding-top: 8px;
+  }
+
+  .contact-item {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .contact-link {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 500;
+    font-size: 18px;
+    color: var(--color-dark);
+    transition: color 0.2s ease;
+  }
+
+  .contact-link:hover {
+    color: var(--color-violet);
+  }
+
+  .contact-value {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 18px;
+    color: var(--color-muted);
+  }
+
+  .available {
+    color: var(--color-teal);
+    font-weight: 500;
+  }
+
+  @media (max-width: 768px) {
+    .contact-layout {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

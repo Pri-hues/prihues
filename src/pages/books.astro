@@ -1,0 +1,111 @@
+---
+export const prerender = true;
+
+import Layout from '../layouts/Layout.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import Tag from '../components/Tag.astro';
+import { getCollection } from 'astro:content';
+
+const allBooks = await getCollection('books', ({ data }) => !data.draft);
+const books = allBooks.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+---
+
+<Layout title="Books — PriHues">
+  <section class="section">
+    <div class="container">
+      <SectionHeader eyebrow="READING" heading="Books" gradient={true} />
+      <p class="intro">What I'm reading, thinking about, and carrying around with me.</p>
+      <div class="books-list">
+        {books.map((book) => (
+          <div class="book-item">
+            <div class="book-cover">
+              {book.data.coverImage
+                ? <img src={book.data.coverImage} alt={book.data.title} />
+                : <div class="cover-placeholder"></div>
+              }
+            </div>
+            <div class="book-info">
+              <div class="book-rating">
+                {'★'.repeat(book.data.rating)}{'☆'.repeat(5 - book.data.rating)}
+              </div>
+              <h3>{book.data.title}</h3>
+              <span class="caption">{book.data.author}</span>
+              <p>{book.data.description}</p>
+              <div class="book-tags">
+                {book.data.tags.map((tag) => (
+                  <Tag label={tag} color="cobalt" />
+                ))}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .intro {
+    max-width: 420px;
+    margin-bottom: 56px;
+    color: var(--color-muted);
+  }
+
+  .books-list {
+    display: flex;
+    flex-direction: column;
+    gap: 56px;
+  }
+
+  .book-item {
+    display: flex;
+    gap: 36px;
+    align-items: flex-start;
+  }
+
+  .book-cover {
+    flex-shrink: 0;
+    width: 120px;
+  }
+
+  .book-cover img {
+    width: 100%;
+    border-radius: 6px;
+    box-shadow: 0 8px 32px rgba(108, 60, 232, 0.15);
+  }
+
+  .cover-placeholder {
+    width: 120px;
+    height: 170px;
+    border-radius: 6px;
+    background: var(--grad-primary);
+    opacity: 0.6;
+  }
+
+  .book-info {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .book-rating {
+    font-size: 15px;
+    color: var(--color-violet);
+    letter-spacing: 2px;
+  }
+
+  h3 { color: var(--color-dark); }
+
+  .book-tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    padding-top: 4px;
+  }
+
+  @media (max-width: 480px) {
+    .book-item { flex-direction: column; }
+    .book-cover { width: 80px; }
+    .cover-placeholder { width: 80px; height: 110px; }
+  }
+</style>

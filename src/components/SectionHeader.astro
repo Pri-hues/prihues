@@ -1,0 +1,31 @@
+---
+interface Props {
+  eyebrow?: string;
+  heading: string;
+  gradient?: boolean;
+}
+
+const { eyebrow, heading, gradient = false } = Astro.props;
+---
+
+<div class="section-header">
+  {eyebrow && <span class="label eyebrow">{eyebrow}</span>}
+  <h2 class:list={[{ 'text-gradient': gradient }]}>{heading}</h2>
+</div>
+
+<style>
+  .section-header {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 56px;
+  }
+
+  .eyebrow {
+    color: var(--color-violet);
+  }
+
+  h2 {
+    color: var(--color-dark);
+  }
+</style>

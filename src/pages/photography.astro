@@ -1,0 +1,58 @@
+---
+export const prerender = true;
+
+import Layout from '../layouts/Layout.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import Tag from '../components/Tag.astro';
+---
+
+<Layout title="Photography — PriHues">
+  <section class="section">
+    <div class="container">
+      <SectionHeader eyebrow="PHOTOGRAPHY" heading="Through the Lens" gradient={true} />
+      <p class="intro">
+        Street, editorial, and documentary photography. Light as language.
+      </p>
+      <div class="photo-grid">
+        {Array.from({ length: 6 }).map((_, i) => (
+          <div class={`photo-item item-${i + 1}`}></div>
+        ))}
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .intro {
+    max-width: 400px;
+    margin-bottom: 56px;
+    color: var(--color-muted);
+  }
+
+  .photo-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: 280px;
+    gap: 16px;
+  }
+
+  .photo-item {
+    border-radius: 10px;
+  }
+
+  .item-1 { background: var(--grad-primary); }
+  .item-2 { background: var(--grad-ocean); grid-row: span 2; }
+  .item-3 { background: var(--grad-pop); }
+  .item-4 { background: var(--grad-aurora); }
+  .item-5 { background: var(--grad-primary); }
+  .item-6 { background: var(--grad-ocean); }
+
+  @media (max-width: 640px) {
+    .photo-grid {
+      grid-template-columns: 1fr 1fr;
+      grid-auto-rows: 180px;
+    }
+
+    .item-2 { grid-row: span 1; }
+  }
+</style>

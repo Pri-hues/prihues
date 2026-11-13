@@ -1,0 +1,66 @@
+---
+export const prerender = true;
+
+import Layout from '../../layouts/Layout.astro';
+import SectionHeader from '../../components/SectionHeader.astro';
+import Tag from '../../components/Tag.astro';
+import { getCollection } from 'astro:content';
+
+const allThoughts = await getCollection('thoughts', ({ data }) => !data.draft);
+const thoughts = allThoughts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+---
+
+<Layout title="Thoughts — PriHues">
+  <section class="section">
+    <div class="container">
+      <SectionHeader eyebrow="THOUGHTS" heading="Thoughts" gradient={true} />
+      <div class="thoughts-list">
+        {thoughts.map((thought) => (
+          <a href={`/thoughts/${thought.id}`} class="thought-item">
+            <div class="thought-meta">
+              <span class="caption">
+                {thought.data.date.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}
+              </span>
+              {thought.data.tags.slice(0, 2).map((tag) => (
+                <Tag label={tag} color="fuchsia" />
+              ))}
+            </div>
+            <h3>{thought.data.title}</h3>
+            <p>{thought.data.description}</p>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .thoughts-list {
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+  }
+
+  .thought-item {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 580px;
+  }
+
+  .thought-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  h3 {
+    color: var(--color-dark);
+    transition: color 0.2s ease;
+  }
+
+  .thought-item:hover h3 {
+    color: var(--color-violet);
+  }
+</style>
